@@ -12,25 +12,22 @@ import com.ucb.sakila.models.Film;
 import com.ucb.sakila.repositories.FilmRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 @Tag(name = "Películas", description = "Endpoints para gestionar películas")
 @RestController
 @RequestMapping("/api/films")
 public class FilmController {
-    @Autowired
-    private FilmRepository filmRepository;
+	@Autowired
+	private FilmRepository filmRepository;
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    public List<Film> getFilms() {
-        return filmRepository.findAll();
-    }
+	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_USER')")
+	public List<Film> getFilms() {
+		return filmRepository.findAll();
+	}
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<?> getFilmById(@PathVariable Long id) {
-        return filmRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
+	public ResponseEntity<?> getFilmById(@PathVariable("id") Long id) {
+		return filmRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+	}
 }
